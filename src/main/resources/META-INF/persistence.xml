@@ -7,6 +7,22 @@
 
   </persistence-unit>
   <persistence-unit name="r4t">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <!-- JDBC-Konfiguration für PostgreSQL -->
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/r4t" />
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
+      <property name="javax.persistence.jdbc.password" value="l5LyaDBX9yooAJVUjG3N" />
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 
+      <!-- Hibernate Dialekt für PostgreSQL -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+
+      <!-- Optional: Weitere Hibernate-Einstellungen -->
+      <property name="hibernate.hbm2ddl.auto" value="create" />
+      <property name="hibernate.show_sql" value="true" />
+      <property name="hibernate.format_sql" value="true" />
+    </properties>
   </persistence-unit>
 </persistence>
