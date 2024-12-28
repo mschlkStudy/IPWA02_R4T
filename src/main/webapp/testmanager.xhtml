@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Test Manager</title>
+    <h:outputStylesheet name="css/style.css" />
+</h:head>
+<h:body>
+    <div class="navbar-container">
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><h:link value="Testcases" outcome="/testcasecreator.xhtml" /></li>
+                <li><h:link value="Tester" outcome="/tester.xhtml" /></li>
+                <li><h:link value="requirementsEngineer" outcome="/requirementsEngineer.xhtml" /></li>
+            </ul>
+        </nav>
+        <div class="navbar-logout">
+            <h:form>
+                <h:commandButton value="Logout" action="#{loginController.logout}"/>
+            </h:form>
+        </div>
+    </div>
+    <div class="content">
+        <h1>R4T Test Manager</h1>
+        <h2>Neuen Testrun anlegen</h2>
+        <h:form id="createTestrunForm" class="centered-form">
+            <div class="creatingPanel">
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="name" value="Testrun Name:" />
+                    <h:inputText id="name" value="#{testrunController.name}" required="true" />
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="status" value="Status:" />
+                    <h:selectOneMenu id="status" value="#{testrunController.status}">
+                        <f:selectItem itemLabel="Durchgeführt" itemValue="Durchgeführt" />
+                        <f:selectItem itemLabel="Nicht durchgeführt" itemValue="Nicht durchgeführt" />
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="tester" value="Tester:" />
+                    <h:selectOneMenu id="tester" value="#{testrunController.selectedTester}">
+                        <f:selectItem itemLabel="Bitte auswählen" itemValue="" />
+                        <f:selectItems value="#{testrunController.allTesters}" var="tester"
+                                       itemLabel="#{testrunController.testrun.tester}" itemValue="#{testrunController.testrun.tester}" />
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="testcaseDropdown" value="Testcase auswählen:" />
+                    <h:selectOneMenu id="testcaseDropdown" value="#{testrunController.selectedTestcase}">
+                        <f:selectItem itemLabel="Bitte wählen" itemValue="#{null}" />
+                        <f:selectItems value="#{testrunController.allTestcases}" var="testcase"
+                                       itemLabel="#{testrunController.selectedTestcase.name}" itemValue="#{testrunController.selectedTestcase}" />
+                        <!--<f:converter converterId="#{testcaseConverter}" /> -->
+                    </h:selectOneMenu>
+
+                    <h:message for="testcaseDropdown" style="color: red;" />
+                </h:panelGrid>
+                <div class="button-container">
+                    <h:commandButton value="Testcase hinzufügen" action="#{testrunController.addTestcase}">
+                    </h:commandButton>
+                </div>
+                <h:outputLabel value="Ausgewählte Testcases:" />
+                <h:dataTable value="#{testrunController.selectedTestcases}" var="selectedTestcase" styleClass="table">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{testrunController.selectedTestcase.id}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        <h:outputText value="#{testrunController.selectedTestcase.name}" />
+                    </h:column>
+                </h:dataTable>
+                <div class="button-container">
+                    <h:commandButton value="Testrun anlegen" action="#{testrunController.saveTestrun}">
+                    </h:commandButton>
+
+                </div>
+            </div>
+
+            <h:messages style="color: red;" />
+
+        <h2>Alle Testruns</h2>
+        <div class="creatingPanel">
+            <h:panelGroup columns ="2" styleClass="scrollable-container">
+                <h:dataTable value="#{testrunController.allTestruns}" var="testrun" styleClass="table">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{testrun.id}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        <h:outputText value="#{testrun.name}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Status</f:facet>
+                        <h:outputText value="#{testrun.status}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Tester</f:facet>
+                        <h:outputText value="#{testrun.tester}" />
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+        </div>
+        </h:form>
+    </div>
+</h:body>
+</html>

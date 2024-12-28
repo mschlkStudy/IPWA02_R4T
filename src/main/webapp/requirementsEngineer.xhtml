@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Requirement Engineer</title>
+    <h:outputStylesheet name="css/style.css"/>
+</h:head>
+<h:body>
+    <div class="navbar-container">
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><h:link value="Testcases" outcome="/testcasecreator.xhtml" /></li>
+                <li><h:link value="Tester" outcome="/tester.xhtml" /></li>
+                <li><h:link value="Testmanager" outcome="/testmanager.xhtml" /></li>
+            </ul>
+        </nav>
+        <div class="navbar-logout">
+            <h:form>
+                <h:commandButton value="Logout" action="#{loginController.logout}"/>
+            </h:form>
+        </div>
+    </div>
+    <div class="content">
+        <h:form id="requirementForm">
+            <h1>R4T Requirements Engineer</h1>
+            <h2>Neue Anforderung anlegen</h2>
+            <h:panelGrid columns="2" styleClass="creatingPanel">
+                <h:outputLabel for="title" value="Requirement title:" />
+                <h:inputText id="title" value="#{requirementController.title}" required="true" />
+            </h:panelGrid>
+            <h:panelGrid columns="2" styleClass="creatingPanel">
+                <h:outputLabel for="description" value="Description:" />
+                <h:inputTextarea id="description" value="#{requirementController.description}" required="true" />
+            </h:panelGrid>
+            <h:panelGrid columns="2" styleClass="creatingPanel">
+                <h:commandButton value="Save Requirement" action="#{requirementController.saveRequirement(requirementController.description, requirementController.title)}" />
+                <h:message for="requirementForm" style="color: red;" />
+            </h:panelGrid>
+            <h:messages style="color: green;" />
+
+            <h:panelGroup>
+                <h2>Existing Requirements</h2>
+                <h:dataTable value="#{requirementController.getAllRequirements()}" var="req" border="1" style="width: 100%;">
+                    <h:column>
+                        <f:facet name="header">Requirement title</f:facet>
+                        #{req.title}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Description</f:facet>
+                        #{req.description}
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+        </h:form>
+    </div>
+</h:body>
+</html>

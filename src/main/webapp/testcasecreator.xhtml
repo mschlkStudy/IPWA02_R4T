@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Testcase Creator</title>
+    <h:outputStylesheet name="css/style.css"/>
+</h:head>
+<h:body>
+    <div class="navbar-container">
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><h:link value="Testmanager" outcome="/testmanager.xhtml" /></li>
+                <li><h:link value="Tester" outcome="/tester.xhtml" /></li>
+                <li><h:link value="requirementsEngineer" outcome="/requirementsEngineer.xhtml" /></li>
+            </ul>
+        </nav>
+        <div class="navbar-logout">
+            <h:form>
+                <h:commandButton value="Logout" action="#{loginController.logout}"/>
+            </h:form>
+        </div>
+    </div>
+    <div class="content">
+        <h1>R4T Testcase creator</h1>
+        <h:panelGrid columns="1"  style="width:100%">
+            <h2>All Requirements</h2>
+            <h:panelGroup styleClass="scrollable-container">
+                <h:dataTable value="#{requirementController.getAllRequirements()}" var="requirement" border="1" style="width: 100%;">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        #{requirement.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Title</f:facet>
+                        #{requirement.title}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Description</f:facet>
+                        #{requirement.description}
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+            <h:form>
+                <h2>Create New Testcase</h2>
+                <div class="dropdown-container">
+                    <h:panelGrid columns="2" styleClass="creatingPanel">
+                        <h:selectOneMenu styleClass="selectBox" id="requirement" value="#{testcaseController.selectedRequirement}" required="true">
+                            <f:selectItem itemValue="" itemLabel="-- Select Requirement --" />
+                            <f:selectItems value="#{requirementController.getAllRequirements()}"
+                                           var="requirement"
+                                           itemValue="#{requirement}"
+                                           itemLabel="#{requirement.title}" />
+                        </h:selectOneMenu>
+                    </h:panelGrid>
+                </div>
+                <h:panelGrid columns="2" styleClass="creatingPanel">
+                    <h:outputLabel for="name" value="Testcase name:" />
+                    <h:inputText id="name" value="#{testcaseController.name}" required="true" />
+                </h:panelGrid>
+                <h:panelGrid columns="2" styleClass="creatingPanel">
+                    <h:outputLabel for="task" value="Task:" />
+                    <h:inputTextarea id="task" value="#{testcaseController.task}" required="true" />
+                </h:panelGrid>
+                <h:panelGrid columns="2" styleClass="creatingPanel">
+                    <h:outputLabel for="result" value="Result:" />
+                    <h:inputTextarea id="result" value="to be tested" required="true" />
+                </h:panelGrid>
+                <div class="button-container">
+                    <h:commandButton value="Save Testcase" action="#{testcaseController.saveTestcase(testcaseController.result, testcaseController.name, testcaseController.task)}" />
+                </div>
+                <h:messages style="color: red;" />
+            </h:form>
+
+            <h:panelGroup columns="2" styleClass="scrollable-container" >
+                <h2>Vorhandene Testcases</h2>
+                <h:dataTable value="#{testcaseController.getAllTestcases()}" var="testcase" style="width: 100%;"
+                             paginator="true"  emptyMessage="Keine Testcases gefunden" >
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{testcase.id}" />
+                    </h:column>
+                    <h:column headerText="Name">
+                        <f:facet name="header">Testfall Name</f:facet>
+                        <h:outputText value="#{testcase.name}" />
+                    </h:column>
+                    <h:column headerText="Task">
+                        <f:facet name="header">Task</f:facet>
+                        <h:outputText value="#{testcase.task}" />
+                    </h:column>
+                    <h:column headerText="Result">
+                        <f:facet name="header">Status</f:facet>
+                        <h:outputText value="#{testcase.result}" />
+                    </h:column>
+                    <h:column headerText="Requirement">
+                        <f:facet name="header">Requirement Titel</f:facet>
+                        <h:outputText value="#{testcase.requirement.title}" />
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+        </h:panelGrid>
+        <div class="logout-container">
+            <h:form>
+                <h:commandButton value="Logout" action="#{loginController.logout}" styleClass="ui-button" />
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Tester Übersicht</title>
+    <h:outputStylesheet name="css/style.css" />
+</h:head>
+<h:body>
+    <div class="navbar-container">
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><h:link value="Testcase createor" outcome="/testcasecreator.xhtml" /></li>
+                <li><h:link value="Testmanager" outcome="/testmanager.xhtml" /></li>
+                <li><h:link value="Requirements Engineer" outcome="/requirementsEngineer.xhtml" /></li>
+            </ul>
+        </nav>
+        <div class="navbar-logout">
+            <h:form>
+                <h:commandButton value="Logout" action="#{loginController.logout}"/>
+            </h:form>
+        </div>
+    </div>
+    <div class="content">
+        <h1>R4T Tester</h1>
+        <h:form>
+            <h2>Status Übersicht</h2>
+            <h:panelGrid columns="3" style="text-align: center; margin-bottom: 20px;">
+                <h:outputLabel value="Offen: #{testcaseController.getOpenCount()}" />
+                <h:outputLabel value="In Arbeit: #{testcaseController.getInProgressCount()}" />
+                <h:outputLabel value="Erledigt: #{testcaseController.getCompletedCount()}" />
+            </h:panelGrid>
+            <h2>Testcases bearbeiten</h2>
+            <h:dataTable value="#{testcaseController.getAllTestcases()}" var="testcase" style="width: 100%;"
+                         paginator="true" rows="10" emptyMessage="Keine Testcases gefunden">
+                <h:column headerText="ID">
+                    <h:outputText value="#{testcase.id}" />
+                </h:column>
+                <h:column headerText="Name">
+                    <h:outputText value="#{testcase.name}" />
+                </h:column>
+                <h:column headerText="Task">
+                    <h:outputText value="#{testcase.task}" />
+                </h:column>
+                <h:column headerText="Result">
+                    <h:selectOneMenu value="#{testcase.result}">
+                        <f:selectItem itemLabel="Offen" itemValue="Offen" />
+                        <f:selectItem itemLabel="In Arbeit" itemValue="In Arbeit" />
+                        <f:selectItem itemLabel="Erledigt" itemValue="Erledigt" />
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column headerText="Aktionen">
+                    <h:commandButton value="Speichern" action="#{testcaseController.updateTestcaseResult(testcase)}" />
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </div>
+    <div class="logout-container">
+        <h:form>
+            <h:commandButton value="Logout" action="#{loginController.logout}" styleClass="ui-button" />
+        </h:form>
+    </div>
+</h:body>
+</html>

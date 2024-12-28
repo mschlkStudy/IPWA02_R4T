@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Login</title>
+    <h:outputStylesheet>
+        /* Zentriert das Formular auf der Seite */
+        .centered-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Vollbildhöhe */
+        }
+
+        /* Gestaltet das Formular */
+        .form-container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px; /* Feste Breite für das Formular */
+            background-color: #f9f9f9;
+        }
+
+        /* Abstand zwischen den Eingabefeldern und dem Button */
+        .form-element {
+            margin-bottom: 15px;
+        }
+    </h:outputStylesheet>
+</h:head>
+
+<h:body>
+    <div class="centered-form">
+        <h:form class="form-container">
+            <h2>Login</h2>
+
+            <!-- Benutzername -->
+            <div class="form-element">
+                <h:outputLabel for="username" value="Benutzername:" />
+                <h:inputText id="username" value="#{loginController.username}" placeholder="Benutzername" style="width: 100%;" />
+            </div>
+
+            <!-- Passwort -->
+            <div class="form-element">
+                <h:outputLabel for="password" value="Passwort:" />
+                <h:inputSecret id="password" value="#{loginController.password}" placeholder="Passwort" style="width: 100%;" />
+            </div>
+
+            <!-- Login-Button -->
+            <div class="form-element">
+                <h:commandButton value="Login" action="#{loginController.login}" icon="pi pi-sign-in" styleClass="ui-button-primary" style="width: 100%;" />
+            </div>
+        </h:form>
+    </div>
+</h:body>
+</html>

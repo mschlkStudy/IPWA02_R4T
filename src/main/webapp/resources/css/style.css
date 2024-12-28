@@ -1,0 +1,183 @@
+/* Allgemeine Tabellen-Stile */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabellenkopf */
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Tabellenzellen */
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+}
+
+/* Jede zweite Zeile hellgrau */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Hover-Effekt für Zeilen */
+tr:hover {
+    background-color: #eaeaea;
+    transition: background-color 0.3s ease;
+}
+
+.panel-container {
+    display: flex;
+    gap: 20px; /* Abstand zwischen den Grids */
+}
+h1 {
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    display: flex;
+   text-align: center;
+    margin-top: 5px;
+}
+h2 {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Zentrierung des Formularbereichs */
+#requirementForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh; /* Passt die vertikale Positionierung an */
+    margin: 0 auto;
+}
+
+.creatingPanel {
+    width: 100%;
+    margin: 10px auto;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/*body {
+    background-color: #f9f9f9; Heller Hintergrund
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;  Inhalte von oben nach unten ausrichten
+    min-height: 100vh;
+    margin: 0;
+}
+*/
+
+body {
+    background-color: #f9f9f9; /* Heller Hintergrund */
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column; /* Elemente vertikal anordnen */
+    align-items: center; /* Inhalte horizontal zentrieren */
+    min-height: 100vh; /* Füllt die gesamte Fensterhöhe aus */
+    margin: 0;
+}
+
+/* Zentrales Seitenlayout */
+.content {
+    max-width: 75%; /* Begrenzung auf 75% der Bildschirmbreite */
+    margin: 0 auto; /* Zentrierung durch automatische Seitenränder */
+    display: flex;
+    flex-direction: column; /* Inhalt wird vertikal gestapelt */
+    align-items: center; /* Inhalt horizontal zentrieren */
+    padding: 50px; /* Innenabstand für bessere Lesbarkeit */
+    box-sizing: border-box; /* Padding in der Gesamtbreite berücksichtigen */
+}
+.button-container {
+    display: flex;
+    margin-top: 20px;
+    text-align: center;
+    justify-content: center;
+}
+.dropdown-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.scrollable-container {
+    max-height: 300px;
+    overflow-y: auto;
+    display: block;
+}
+.navbar-container {
+    width: 100%; /* Breite über die gesamte Seite */
+    background-color: #333; /* Dunkler Hintergrund */
+    display: flex; /* Flexbox für horizontale Anordnung */
+    align-items: center; /* Vertikale Zentrierung der Inhalte */
+    justify-content: space-between; /* Abstand zwischen Links und Logout-Button */
+    padding: 10px 20px; /* Innenabstand */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Leichter Schatten */
+    position: fixed; /* Fixiert die Navbar am oberen Rand */
+    top: 0; /* Abstand vom oberen Rand */
+    z-index: 1000; /* Stellt sicher, dass die Navbar über anderen Inhalten liegt */
+}
+
+/* Navigation Bar Links */
+.nav-links {
+    list-style-type: none; /* Keine Aufzählungszeichen */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Links horizontal anordnen */
+    gap: 20px; /* Abstand zwischen den Links */
+}
+
+.nav-links li {
+    display: inline; /* Links in einer Reihe */
+}
+
+.nav-links a, .nav-links a:visited {
+    color: white; /* Linkfarbe */
+    text-decoration: none; /* Keine Unterstreichung */
+    font-weight: bold; /* Fette Schrift */
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* Unterstreichung beim Hover */
+    color: #ddd; /* Hellere Farbe beim Hover */
+}
+
+/* Logout Button in der Navbar */
+.navbar-logout {
+    display: flex; /* Flexbox für den Logout-Button */
+    align-items: center; /* Vertikale Zentrierung */
+}
+.navbar-logout h:commandButton {
+    background-color: #f44336; /* Rote Hintergrundfarbe */
+    color: white; /* Weiße Schriftfarbe */
+    border: none;
+    padding: 8px 12px; /* Abstand */
+    border-radius: 4px; /* Abgerundete Ecken */
+    cursor: pointer; /* Zeiger bei Hover */
+    font-weight: bold;
+    text-transform: uppercase; /* Text in Großbuchstaben */
+}
+
+.navbar-logout h:commandButton:hover {
+    background-color: #d32f2f; /* Dunklere rote Farbe bei Hover */
+}
+
+
