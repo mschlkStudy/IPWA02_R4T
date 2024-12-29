@@ -1,7 +1,5 @@
 import jakarta.persistence.*;
-
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 public class Testrun implements Serializable {
@@ -11,8 +9,8 @@ public class Testrun implements Serializable {
     private String name;
 
 
-    @OneToMany
-    private List<Testcase> assignedTestcases;
+
+    private String testcaseIds;
 
     private String status;
     private String tester;
@@ -21,12 +19,13 @@ public class Testrun implements Serializable {
 
     }
 
-    public Testrun(String name, String status,  String tester, List<Testcase> testcases) {
+    public Testrun(String name, String status,  String tester, String testcaseIds) {
         this.name = name;
         this.status = status;
         this.tester = tester;
-        this.assignedTestcases = testcases;
+        this.testcaseIds = testcaseIds;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -58,11 +57,11 @@ public class Testrun implements Serializable {
         this.tester = tester;
     }
 
-    public List<Testcase> getAssignedTestcases() {
-        return assignedTestcases;
+    public String getTestcaseIds() {
+        return testcaseIds;
     }
 
-    public void setAssignedTestcases(List<Testcase> assignedTestcases) {
-        this.assignedTestcases = assignedTestcases;
+    public void setTestcaseIds(String testcaseIds) {
+        this.testcaseIds = testcaseIds;
     }
 }

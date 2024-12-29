@@ -1,6 +1,6 @@
 import jakarta.persistence.*;
-
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 public class Testcase implements Serializable {
@@ -19,8 +19,17 @@ public class Testcase implements Serializable {
 
     }
 
-    public Testcase(String name, String id) {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Testcase testcase = (Testcase) obj;
+        return Objects.equals(id, testcase.id);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public Testcase(String result, String name, String task) {

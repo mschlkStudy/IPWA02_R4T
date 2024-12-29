@@ -3,10 +3,9 @@ import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Named
 @SessionScoped
@@ -15,27 +14,22 @@ public class TestrunController implements Serializable {
     private String name;
     private String status;
     private String selectedTester;
-    private List<Testcase> selectedTestcases = new ArrayList<>();
-    private Testcase selectedTestcase;
+    private List<Long> selectedTestcaseIds = new ArrayList<>();
+    private Long selectedTestcaseId;
 
     private Testrun testrun = new Testrun();
 
 
     private final EntityManager em;
 
-
     public TestrunController() {
         em = Persistence.createEntityManagerFactory("requireForTesting").createEntityManager();
     }
 
     public List<String> getAllTesters() {
-        List<User> tester = em.createQuery("SELECT u FROM User u WHERE u.role = 'tester'", User.class).getResultList();
-        List<String> testerAsString = new ArrayList<>();
-        for(User u : tester) {
-            testerAsString.add(u.getUsername());
-        }
-        return testerAsString;
+        return em.createQuery("SELECT u.username FROM User u WHERE u.role = 'tester'", String.class).getResultList();
     }
+
 
     public List<Testcase> getAllTestcases() {
         Query q = em.createQuery("Select tc from Testcase tc", Testcase.class);
@@ -47,30 +41,41 @@ public class TestrunController implements Serializable {
     }
 
 
+
     public void saveTestrun() {
+        try {
+            em.getTransaction().begin();
 
-        // Testrun speichern
-        Testrun testrun = new Testrun(name, status, selectedTester, selectedTestcases);
-        em.getTransaction().begin();
-        em.persist(testrun);
-        em.getTransaction().commit();
+            // Konvertiere die Liste der Testcase-IDs in eine kommagetrennte Zeichenkette
+            String testcaseIds = selectedTestcaseIds.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","));
 
-        // Felder zurücksetzen
+            Testrun testrun = new Testrun(name, status, selectedTester, testcaseIds);
+            em.persist(testrun);
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw e;
+        }
+        resetFields();
+    }
+
+    private void resetFields() {
         name = null;
         status = null;
         selectedTester = null;
-        selectedTestcases = null;
+        selectedTestcaseIds = null;
     }
 
     public void addTestcase() {
-        if (selectedTestcases == null) {
-            selectedTestcases = new ArrayList<>();
+        if (selectedTestcaseId != null && !selectedTestcaseIds.contains(selectedTestcaseId)) {
+            selectedTestcaseIds.add(selectedTestcaseId);
         }
-        if (selectedTestcase != null && !selectedTestcases.contains(selectedTestcase)) {
-            selectedTestcases.add(selectedTestcase);
-        }
-
     }
+
+
 
     public Testcase getTestcaseById(Long id) {
         for(Testcase tc : getAllTestcases()) {
@@ -80,6 +85,22 @@ public class TestrunController implements Serializable {
         }
         return null;
     }
+
+    public List<String> getSelectedTestcaseNames() {
+        if(selectedTestcaseIds == null || selectedTestcaseIds.isEmpty()) {
+            return List.of();
+        }
+        return selectedTestcaseIds.stream()
+                .map(this::getTestcaseById) // Holt das Testcase-Objekt basierend auf der ID
+                .filter(Objects::nonNull)
+                .map(Testcase::getName) // Holt den Namen des Testcases
+                .toList();
+    }
+
+    public String getSelectedTestcaseNamesAsString() {
+        return String.join(", ", getSelectedTestcaseNames());
+    }
+
 
     public String getName() {
         return name;
@@ -105,21 +126,20 @@ public class TestrunController implements Serializable {
         this.selectedTester = selectedTester;
     }
 
-    public List<Testcase> getSelectedTestcases() {
-        return selectedTestcases;
+    public List<Long> getSelectedTestcaseIds() {
+        return selectedTestcaseIds;
     }
 
-    public void setSelectedTestcases(List<Testcase> selectedTestcases) {
-        this.selectedTestcases = selectedTestcases;
+    public void setSelectedTestcaseIds(List<Long> selectedTestcaseIds) {
+        this.selectedTestcaseIds = selectedTestcaseIds;
     }
 
-
-    public Testcase getSelectedTestcase() {
-        return selectedTestcase;
+    public Long getSelectedTestcaseId() {
+        return selectedTestcaseId;
     }
 
-    public void setSelectedTestcase(Testcase selectedTestcase) {
-        this.selectedTestcase = selectedTestcase;
+    public void setSelectedTestcaseId(Long selectedTestcaseId) {
+        this.selectedTestcaseId = selectedTestcaseId;
     }
 
     public Testrun getTestrun() {

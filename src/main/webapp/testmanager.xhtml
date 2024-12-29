@@ -47,30 +47,19 @@
                 </h:panelGrid>
                 <h:panelGrid columns="2">
                     <h:outputLabel for="testcaseDropdown" value="Testcase auswählen:" />
-                    <h:selectOneMenu id="testcaseDropdown" value="#{testrunController.selectedTestcase}">
+                    <h:selectOneMenu id="testcaseDropdown" value="#{testrunController.selectedTestcaseId}">
                         <f:selectItem itemLabel="Bitte wählen" itemValue="#{null}" />
                         <f:selectItems value="#{testrunController.allTestcases}" var="testcase"
-                                       itemLabel="#{testrunController.selectedTestcase.name}" itemValue="#{testrunController.selectedTestcase}" />
-                        <!--<f:converter converterId="#{testcaseConverter}" /> -->
+                                       itemLabel="#{testcase.name}" itemValue="#{testcase.id}" />
                     </h:selectOneMenu>
-
                     <h:message for="testcaseDropdown" style="color: red;" />
                 </h:panelGrid>
                 <div class="button-container">
                     <h:commandButton value="Testcase hinzufügen" action="#{testrunController.addTestcase}">
                     </h:commandButton>
                 </div>
-                <h:outputLabel value="Ausgewählte Testcases:" />
-                <h:dataTable value="#{testrunController.selectedTestcases}" var="selectedTestcase" styleClass="table">
-                    <h:column>
-                        <f:facet name="header">ID</f:facet>
-                        <h:outputText value="#{testrunController.selectedTestcase.id}" />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Name</f:facet>
-                        <h:outputText value="#{testrunController.selectedTestcase.name}" />
-                    </h:column>
-                </h:dataTable>
+                <h:outputText value="Ausgewählte Testcases: " />
+                <h:outputText value="#{testrunController.selectedTestcaseNamesAsString}" />
                 <div class="button-container">
                     <h:commandButton value="Testrun anlegen" action="#{testrunController.saveTestrun}">
                     </h:commandButton>
